@@ -1,28 +1,57 @@
-.App {
+.app {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
+.app-logo {
+  animation: app-logo-spin infinite 20s linear;
   height: 80px;
 }
 
-.App-header {
+.app-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
 }
 
-.App-title {
+.app-title {
   font-size: 1.5em;
 }
 
-.App-intro {
+.app-intro {
   font-size: large;
 }
 
-@keyframes App-logo-spin {
+.section {
+  padding-top: 5em;
+}
+
+.education-img {
+  height: 5em;
+  width: 5em;
+  border-radius: 2.5em;
+}
+
+#purdue-logo-img {
+  background-color: #cfb53b;
+  padding: 0.1em;
+}
+
+.dark {
+  background-color: #f9f9f9;
+}
+
+@media only screen and (min-width: 768px) {
+  .education-logo > img {
+    position: absolute;
+    right: 0;
+  }
+  .education-details {
+    text-align: left;
+  }
+}
+
+@keyframes app-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
