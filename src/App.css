@@ -1,5 +1,11 @@
 .app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   text-align: center;
+  background-color: #2d2d2d;
 }
 
 .app-logo {
@@ -8,9 +14,11 @@
 }
 
 .app-header {
-  background-color: #222;
-  height: 150px;
+  background: linear-gradient(#B99514, #C19F29);
+  position: relative;
+  z-index: 10000;
   padding: 20px;
+  box-shadow: 0 7px 5px 0 rgba(0,0,0,0.50);
   color: white;
 }
 
@@ -22,8 +30,47 @@
   font-size: large;
 }
 
-.section {
-  padding-top: 5em;
+.fixed-container, .row, .main-section {
+  height: 100%;
+}
+
+.fixed-container {
+  background: url("./assets/mall-bg.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.main-section {
+  padding: 0;
+}
+
+.main-section > div {
+  border-style: solid;
+  border-width: 0 10px;
+  border-color: #2d2d2d;
+  height: 100%;
+}
+
+#about > div {
+  background-color: rgba(182, 31, 201, 0.5);
+}
+
+#portfolio > div {
+  background-color: rgba(0, 91, 255, 0.5);
+}
+
+#interests > div {
+  background-color: rgba(31, 201, 166, 0.5);
+}
+
+#contact > div {
+  background-color: rgba(243, 153, 36, 0.5);
+}
+
+.main-section > div:hover {
+  animation: widen-section 0.5s 0s 1 normal;
+  animation-fill-mode: both;
+  cursor: pointer;
 }
 
 .education-img {
@@ -54,4 +101,9 @@
 @keyframes app-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes widen-section {
+  from { border-width: 0 5px; }
+  to {border-width: 0 1px; }
 }

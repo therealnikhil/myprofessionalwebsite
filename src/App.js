@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
 import logo from './logo.svg';
-import faips_logo from './assets/faips-logo.jpg';
-import purdue_logo from './assets/purdue-logo.png';
+//import faips_logo from './assets/faips-logo.jpg';
+//import purdue_logo from './assets/purdue-logo.png';
 import './App.css';
 
 export default class App extends Component {
@@ -10,18 +10,33 @@ export default class App extends Component {
     return (
       <div className="app">
         <header className="app-header">
+          <span className="app-title">Hi, I'm Nikhil!</span>
           <img src={logo} className="app-logo" alt="logo" />
-          <div className="wallpaper">
-            <h1 className="app-title">Hi, I'm Nikhil!</h1>
-          </div>
-          <div className="navbar">
-            <Button bsStyle="link" href="#about">About</Button>
-            <Button bsStyle="link" href="#portfolio">Portfolio</Button>
-            <Button bsStyle="link" href="#accolades">Accolades</Button>
-            <Button bsStyle="link" href="#contact">Contact</Button>
-          </div>
         </header>
-        <div id="about" className="dark section">
+        <Grid className="fixed-container">
+          <Row>
+            <Col id="about" className="main-section" md={3}>
+              <div></div>
+            </Col>
+            <Col id="portfolio" className="main-section" md={3}>
+              <div></div>
+            </Col>
+            <Col id="interests" className="main-section" md={3}>
+              <div></div>
+            </Col>
+            <Col id="contact" className="main-section" md={3}>
+              <div></div>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
+    );
+  }
+}
+
+/*
+
+<div id="about" className="dark section">
           <Grid>
             <Col xs={12}>
               <h2>About</h2>
@@ -60,7 +75,4 @@ export default class App extends Component {
         <div id="portfolio" className="section"></div>
         <div id="accolades" className="dark section"></div>
         <div id="contact" className="section"></div>
-      </div>
-    );
-  }
-}
+*/
