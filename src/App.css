@@ -49,6 +49,7 @@
   border-width: 0 10px;
   border-color: #2d2d2d;
   height: 100%;
+  transition: border-width 0.5s;
 }
 
 #about > div {
@@ -67,10 +68,30 @@
   background-color: rgba(243, 153, 36, 0.5);
 }
 
-.main-section > div:hover {
-  animation: widen-section 0.5s 0s 1 normal;
-  animation-fill-mode: both;
+#inactive-1:hover, #inactive-2:hover, #inactive-3:hover, #inactive-4:hover {
+  border-width: 0 1px;
   cursor: pointer;
+}
+
+.section-detail {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: relative;
+  top: 100%;
+  bottom: -100%;
+  transition: top 0.5s, bottom 0.5s;
+}
+
+
+.section-detail.up {
+  top: 0%;
+  bottom: 0%;
+}
+
+.section-detail.down {
+  top: 100%;
+  bottom: -100%;
 }
 
 .education-img {
@@ -106,4 +127,19 @@
 @keyframes widen-section {
   from { border-width: 0 5px; }
   to {border-width: 0 1px; }
+}
+
+@keyframes slide-section-up {
+  from { top: 100%; bottom: -100%; }
+  to {top: 0%; bottom: 0%; }
+}
+
+@keyframes narrow-section {
+  from { border-width: 0 1px; }
+  to {border-width: 14px 9px; }
+}
+
+@keyframes bring-section-forward {
+  from { z-index: auto }
+  to { z-index: 1000000 }
 }
