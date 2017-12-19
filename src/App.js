@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, Grid, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import logo from './logo.svg';
 //import faips_logo from './assets/faips-logo.jpg';
@@ -16,27 +15,53 @@ export default class App extends Component {
   toggleSection(clickedSection) {
     this.setState({
       clicked: clickedSection
-    })
+    });
+    var i;
+    for (i = 1; i < 5; i++) {
+      if (i !== clickedSection) {
+        var d = document.getElementById(`main-section-${i}`);
+        d.className = "main-section hide";
+      }
+    }
+    var d = document.getElementById(`main-section-${clickedSection}`);
+    d.className = "main-section zoom";
+    d = document.getElementById("quote-slider");
+    d.className += " remove";
+    d = document.getElementById("bg-div");
+    d.className += " remove";
   }
   slideUpSectionDetais(clickedSection) {
     var d = document.getElementById(`section-detail-${clickedSection}`);
     d.className = "section-detail up";
+    var i;
+    if (clickedSection === 1) i = 'b';
+    else if (clickedSection === 2) i = 'o';
+    else if (clickedSection === 3) i = 'l';
+    else i = 'd';
+    d = document.getElementById(`tile-letter-${i}`);
+    d.className = "tile-letter up";
   }
   slideDownSectionDetails(clickedSection) {
     var d = document.getElementById(`section-detail-${clickedSection}`);
     d.className = "section-detail down";
+    var i;
+    if (clickedSection === 1) i = 'b';
+    else if (clickedSection === 2) i = 'o';
+    else if (clickedSection === 3) i = 'l';
+    else i = 'd';
+    d = document.getElementById(`tile-letter-${i}`);
+    d.className = "tile-letter down";
   }
   render() {
     return (
       <div className="app">
         <header className="app-header">
           <span className="app-title">Hi, I'm Nikhil!</span>
-          <img src={logo} className="app-logo" alt="logo" />
         </header>
-        <Grid className="fixed-container">
-          <Row>
-            <Col 
-              id="about" 
+        <div className="fixed-container">
+          <div id="bg-div">
+            <div 
+              id="main-section-1" 
               onMouseEnter={() => this.slideUpSectionDetais(1)} 
               onMouseLeave={() => this.slideDownSectionDetails(1)} 
               onClick={() => this.toggleSection(1)} 
@@ -50,11 +75,18 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
+                  <p className="tile-desc">
+                    The story of where I come from, and how I left the tiny country I was born and raised in 
+                    for one of the most prestigious universities in the world.
+                  </p>
                 </div>
+                <span className="tile-letter" id="tile-letter-b">B
+                    <span className="tile-title">eginnings</span>
+                  </span>
               </div>
-            </Col>
-            <Col 
-              id="portfolio" 
+            </div>
+            <div 
+              id="main-section-2" 
               onMouseEnter={() => this.slideUpSectionDetais(2)} 
               onMouseLeave={() => this.slideDownSectionDetails(2)} 
               onClick={() => this.toggleSection(2)} 
@@ -68,11 +100,18 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
+                  <p className="tile-desc">
+                      The skills, work experience and personality traits I have acquired along my path to 
+                      excellence in the corporate world.
+                    </p>
                 </div>
+                <span className="tile-letter" id="tile-letter-o">O
+                  <span className="tile-title">ccupation</span>
+                </span>
               </div>
-            </Col>
-            <Col 
-              id="interests" 
+            </div>
+            <div 
+              id="main-section-3" 
               onMouseEnter={() => this.slideUpSectionDetais(3)} 
               onMouseLeave={() => this.slideDownSectionDetails(3)} 
               onClick={() => this.toggleSection(3)} 
@@ -86,11 +125,18 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
+                  <p className="tile-desc">
+                      The hobbies that have shaped me as a unique individual, intellectually, socially and 
+                      culturally, which include travelling around the world.
+                    </p>
                 </div>
+                <span className="tile-letter" id="tile-letter-l">L
+                  <span className="tile-title">eisure</span>
+                </span>
               </div>
-            </Col>
-            <Col 
-              id="contact" 
+            </div>
+            <div 
+              id="main-section-4" 
               onMouseEnter={() => this.slideUpSectionDetais(4)} 
               onMouseLeave={() => this.slideDownSectionDetails(4)} 
               onClick={() => this.toggleSection(4)} 
@@ -104,11 +150,25 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
+                  <p className="tile-desc">
+                    The digital footprint, including links to networking platforms 
+                    for anyone to learn more about me or contact me from anywhere in the world.
+                  </p>
                 </div>
+                <span className="tile-letter" id="tile-letter-d">D
+                  <span className="tile-title">iscover</span>
+                </span>
               </div>
-            </Col>
-          </Row>
-        </Grid>
+            </div>
+          </div>
+        </div>
+        <div id="quote-slider">
+          <p className="quotation">
+            For to everyone who has will more be given, and he will have an abundance. 
+            But from the one who has not, even what he has will be taken away.
+          </p>
+          <p>Matthew 25:29</p>
+        </div>
       </div>
     );
   }
@@ -116,6 +176,7 @@ export default class App extends Component {
 
 /*
 
+<img src={logo} className="app-logo" alt="logo" />
 <div id="about" className="dark section">
           <Grid>
             <Col xs={12}>
