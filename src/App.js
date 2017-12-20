@@ -5,12 +5,33 @@ import logo from './logo.svg';
 //import purdue_logo from './assets/purdue-logo.png';
 import './App.css';
 
+const quotes = [
+  {
+    quote: "For to everyone who has will more be given, and he will have an abundance. But from the one who has not, even what he has will be taken away",
+    author: "Matthew 25:29"
+  },
+  {
+    quote: "The significant problems we face cannot be solved at the same level of thinking we were at when we created them",
+    author: "Albert Einstein"
+  },
+  {
+    quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit",
+    author: "Aristotle"
+  }
+]
+
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clicked: PropTypes.oneOf([0, 1, 2, 3, 4])
+      clicked: PropTypes.oneOf([0, 1, 2, 3, 4]),
+      activeQuoteId: PropTypes.number
     }
+  }
+  componentWillMount() {
+    this.setState({
+      activeQuoteId: Math.floor(Math.random() * quotes.length)
+    });
   }
   toggleSection(clickedSection) {
     this.setState({
@@ -51,6 +72,12 @@ export default class App extends Component {
     else i = 'd';
     d = document.getElementById(`tile-letter-${i}`);
     d.className = "tile-letter down";
+  }
+  nextQuote() {
+    let currentQuoteId = this.state.activeQuoteId;
+    this.setState({
+      activeQuoteId: (currentQuoteId + 1) % quotes.length
+    })
   }
   render() {
     return (
@@ -163,11 +190,18 @@ export default class App extends Component {
           </div>
         </div>
         <div id="quote-slider">
-          <p className="quotation">
-            For to everyone who has will more be given, and he will have an abundance. 
-            But from the one who has not, even what he has will be taken away.
-          </p>
-          <p>Matthew 25:29</p>
+          <div>
+            <p className="quotation"> { quotes[this.state.activeQuoteId].quote } </p>
+            <p> { quotes[this.state.activeQuoteId].author } </p>
+          </div>
+          <div className="quote-slider-pages">
+          {
+            quotes.map((currentQuote, currentQuoteIndex) => {
+              return (
+                <div className={`quote-slider-page ${ currentQuoteIndex === this.state.activeQuoteId ? "active" : "inactive"}`} />
+            )})
+          }
+          </div>
         </div>
       </div>
     );
@@ -175,7 +209,6 @@ export default class App extends Component {
 }
 
 /*
-
 <img src={logo} className="app-logo" alt="logo" />
 <div id="about" className="dark section">
           <Grid>
