@@ -25,13 +25,17 @@ export default class App extends Component {
     super(props);
     this.state = {
       clicked: PropTypes.oneOf([0, 1, 2, 3, 4]),
-      activeQuoteId: PropTypes.number
+      activeQuoteId: PropTypes.number,
+      interval: null
     }
   }
   componentWillMount() {
     this.setState({
       activeQuoteId: Math.floor(Math.random() * quotes.length)
     });
+  }
+  componentDidMount() {
+    this.startQuoteSlider();
   }
   toggleSection(clickedSection) {
     this.setState({
@@ -53,31 +57,61 @@ export default class App extends Component {
   }
   slideUpSectionDetais(clickedSection) {
     var d = document.getElementById(`section-detail-${clickedSection}`);
-    d.className = "section-detail up";
+    d.classList.remove("down");
+    d.classList.add("up");
     var i;
     if (clickedSection === 1) i = 'b';
     else if (clickedSection === 2) i = 'o';
     else if (clickedSection === 3) i = 'l';
     else i = 'd';
     d = document.getElementById(`tile-letter-${i}`);
-    d.className = "tile-letter up";
+    d.classList.remove("down");
+    d.classList.add("up");
+    d = document.getElementById(`tile-desc-${clickedSection}`);
+    d.classList.add("appear");
   }
   slideDownSectionDetails(clickedSection) {
     var d = document.getElementById(`section-detail-${clickedSection}`);
-    d.className = "section-detail down";
+    d.classList.remove("up");
+    d.classList.add("down");
     var i;
     if (clickedSection === 1) i = 'b';
     else if (clickedSection === 2) i = 'o';
     else if (clickedSection === 3) i = 'l';
     else i = 'd';
     d = document.getElementById(`tile-letter-${i}`);
-    d.className = "tile-letter down";
+    d.classList.remove("up");
+    d.classList.add("down");
+    d = document.getElementById(`tile-desc-${clickedSection}`);
+    d.classList.remove("appear");
   }
-  nextQuote() {
+  nextQuote(newQuoteId) {
     let currentQuoteId = this.state.activeQuoteId;
+    let nextQuoteId = (newQuoteId === -1) ? (currentQuoteId + 1) % quotes.length : newQuoteId;
+    var element = document.getElementById("current-quote");
+    element.className = "fade-out";
+    var pageOut = document.getElementById(`quote-slider-page-${currentQuoteId}`)
+    var pageIn = document.getElementById(`quote-slider-page-${nextQuoteId}`);
+    setTimeout(() => { 
+      pageOut.classList.add("fade-out");
+      pageIn.classList.add("fade-in");
+      element.className = "fade-in";
+      this.setState({
+        activeQuoteId: nextQuoteId
+      })
+    }, 500);
+    pageOut.classList.remove("fade-out");
+    pageIn.classList.remove("fade-in");
+  }
+  pauseQuoteSlider() {
+    clearInterval(this.state.interval);
+  }
+  startQuoteSlider() {
     this.setState({
-      activeQuoteId: (currentQuoteId + 1) % quotes.length
-    })
+      interval: setInterval(() => {
+        this.nextQuote(-1);
+      }, 7500)
+    });
   }
   render() {
     return (
@@ -92,8 +126,7 @@ export default class App extends Component {
               onMouseEnter={() => this.slideUpSectionDetais(1)} 
               onMouseLeave={() => this.slideDownSectionDetails(1)} 
               onClick={() => this.toggleSection(1)} 
-              className="main-section" 
-              md={3}
+              className="main-section"
             >
               <div id={this.state.clicked === 1 ? "active-1" : "inactive-1"}>
                 <div id="section-detail-1" className="section-detail">
@@ -102,14 +135,14 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
-                  <p className="tile-desc">
-                    The story of where I come from, and how I left the tiny country I was born and raised in 
-                    for one of the most prestigious universities in the world.
-                  </p>
                 </div>
                 <span className="tile-letter" id="tile-letter-b">B
-                    <span className="tile-title">eginnings</span>
-                  </span>
+                  <span className="tile-title">eginnings</span>
+                </span>
+                <p id="tile-desc-1" className="tile-desc">
+                  The story of where I come from, and how I left the tiny country I was born and raised in 
+                  for one of the most prestigious universities in the world.
+                </p>
               </div>
             </div>
             <div 
@@ -127,14 +160,14 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
-                  <p className="tile-desc">
-                      The skills, work experience and personality traits I have acquired along my path to 
-                      excellence in the corporate world.
-                    </p>
                 </div>
                 <span className="tile-letter" id="tile-letter-o">O
                   <span className="tile-title">ccupation</span>
                 </span>
+                <p id="tile-desc-2" className="tile-desc">
+                  The skills, work experience and personality traits I have acquired along my path to 
+                  excellence in the corporate world.
+                </p>
               </div>
             </div>
             <div 
@@ -152,14 +185,14 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
-                  <p className="tile-desc">
-                      The hobbies that have shaped me as a unique individual, intellectually, socially and 
-                      culturally, which include travelling around the world.
-                    </p>
                 </div>
                 <span className="tile-letter" id="tile-letter-l">L
                   <span className="tile-title">eisure</span>
                 </span>
+                <p id="tile-desc-3" className="tile-desc">
+                  The hobbies that have shaped me as a unique individual, intellectually, socially and 
+                  culturally, which include travelling around the world.
+                </p>
               </div>
             </div>
             <div 
@@ -177,20 +210,24 @@ export default class App extends Component {
                   <div>
                   </div>
                 }
-                  <p className="tile-desc">
-                    The digital footprint, including links to networking platforms 
-                    for anyone to learn more about me or contact me from anywhere in the world.
-                  </p>
                 </div>
                 <span className="tile-letter" id="tile-letter-d">D
                   <span className="tile-title">iscover</span>
                 </span>
+                <p id="tile-desc-4" className="tile-desc">
+                  The digital footprint, including links to networking platforms 
+                  for anyone to learn more about me or contact me from anywhere in the world.
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div id="quote-slider">
-          <div>
+        <div 
+          id="quote-slider" 
+          onMouseEnter={this.pauseQuoteSlider.bind(this)}
+          onMouseLeave={this.startQuoteSlider.bind(this)}
+        >
+          <div id="current-quote">
             <p className="quotation"> { quotes[this.state.activeQuoteId].quote } </p>
             <p> { quotes[this.state.activeQuoteId].author } </p>
           </div>
@@ -198,7 +235,11 @@ export default class App extends Component {
           {
             quotes.map((currentQuote, currentQuoteIndex) => {
               return (
-                <div className={`quote-slider-page ${ currentQuoteIndex === this.state.activeQuoteId ? "active" : "inactive"}`} />
+                <div 
+                  id={`quote-slider-page-${currentQuoteIndex}`} 
+                  className={`quote-slider-page ${ currentQuoteIndex === this.state.activeQuoteId ? "active" : "inactive"}`} 
+                  onClick={ () => this.nextQuote(currentQuoteIndex) }
+                />
             )})
           }
           </div>
