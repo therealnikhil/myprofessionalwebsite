@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import logo from './logo.svg';
+import name_logo from './assets/name-logo.png';
+import close_button from './assets/close-button.svg';
 //import faips_logo from './assets/faips-logo.jpg';
 //import purdue_logo from './assets/purdue-logo.png';
 import './App.css';
@@ -31,6 +32,7 @@ export default class App extends Component {
   }
   componentWillMount() {
     this.setState({
+      clicked: 0,
       activeQuoteId: Math.floor(Math.random() * quotes.length)
     });
   }
@@ -38,52 +40,47 @@ export default class App extends Component {
     this.startQuoteSlider();
   }
   toggleSection(clickedSection) {
+    var d = document.getElementById("section-content");
+    if (clickedSection === 0) {
+      d.classList.remove("show");
+      d.classList.add("hide");
+    } else {
+      d.classList.remove("hide");
+      d.classList.add("show");
+    }
     this.setState({
       clicked: clickedSection
     });
-    var i;
-    for (i = 1; i < 5; i++) {
-      if (i !== clickedSection) {
-        var d = document.getElementById(`main-section-${i}`);
-        d.className = "main-section hide";
-      }
-    }
-    var d = document.getElementById(`main-section-${clickedSection}`);
-    d.className = "main-section zoom";
-    d = document.getElementById("quote-slider");
-    d.className += " remove";
-    d = document.getElementById("bg-div");
-    d.className += " remove";
   }
-  slideUpSectionDetais(clickedSection) {
-    var d = document.getElementById(`section-detail-${clickedSection}`);
-    d.classList.remove("down");
-    d.classList.add("up");
-    var i;
-    if (clickedSection === 1) i = 'b';
-    else if (clickedSection === 2) i = 'o';
-    else if (clickedSection === 3) i = 'l';
-    else i = 'd';
-    d = document.getElementById(`tile-letter-${i}`);
-    d.classList.remove("down");
-    d.classList.add("up");
-    d = document.getElementById(`tile-desc-${clickedSection}`);
-    d.classList.add("appear");
+  slideUpSectionDetails(clickedSection) {
+      var d = document.getElementById(`section-detail-${clickedSection}`);
+      d.classList.remove("down");
+      d.classList.add("up");
+      var i;
+      if (clickedSection === 1) i = 'b';
+      else if (clickedSection === 2) i = 'o';
+      else if (clickedSection === 3) i = 'l';
+      else i = 'd';
+      d = document.getElementById(`tile-letter-${i}`);
+      d.classList.remove("down");
+      d.classList.add("up");
+      d = document.getElementById(`tile-desc-${clickedSection}`);
+      d.classList.add("appear");
   }
   slideDownSectionDetails(clickedSection) {
-    var d = document.getElementById(`section-detail-${clickedSection}`);
-    d.classList.remove("up");
-    d.classList.add("down");
-    var i;
-    if (clickedSection === 1) i = 'b';
-    else if (clickedSection === 2) i = 'o';
-    else if (clickedSection === 3) i = 'l';
-    else i = 'd';
-    d = document.getElementById(`tile-letter-${i}`);
-    d.classList.remove("up");
-    d.classList.add("down");
-    d = document.getElementById(`tile-desc-${clickedSection}`);
-    d.classList.remove("appear");
+      var d = document.getElementById(`section-detail-${clickedSection}`);
+      d.classList.remove("up");
+      d.classList.add("down");
+      var i;
+      if (clickedSection === 1) i = 'b';
+      else if (clickedSection === 2) i = 'o';
+      else if (clickedSection === 3) i = 'l';
+      else i = 'd';
+      d = document.getElementById(`tile-letter-${i}`);
+      d.classList.remove("up");
+      d.classList.add("down");
+      d = document.getElementById(`tile-desc-${clickedSection}`);
+      d.classList.remove("appear");
   }
   nextQuote(newQuoteId) {
     let currentQuoteId = this.state.activeQuoteId;
@@ -113,29 +110,24 @@ export default class App extends Component {
       }, 7500)
     });
   }
+
   render() {
     return (
       <div className="app">
         <header className="app-header">
-          <span className="app-title">Hi, I'm Nikhil!</span>
+          <img src={name_logo} className="app-title" alt="nikhil-kumar-logo" />
         </header>
         <div className="fixed-container">
           <div id="bg-div">
             <div 
               id="main-section-1" 
-              onMouseEnter={() => this.slideUpSectionDetais(1)} 
+              onMouseEnter={() => this.slideUpSectionDetails(1)} 
               onMouseLeave={() => this.slideDownSectionDetails(1)} 
               onClick={() => this.toggleSection(1)} 
               className="main-section"
             >
-              <div id={this.state.clicked === 1 ? "active-1" : "inactive-1"}>
-                <div id="section-detail-1" className="section-detail">
-                {
-                  this.state.clicked === 1 && 
-                  <div>
-                  </div>
-                }
-                </div>
+              <div id="hover-wrapper-1">
+                <div id="section-detail-1" className="section-detail" />
                 <span className="tile-letter" id="tile-letter-b">B
                   <span className="tile-title">eginnings</span>
                 </span>
@@ -147,20 +139,14 @@ export default class App extends Component {
             </div>
             <div 
               id="main-section-2" 
-              onMouseEnter={() => this.slideUpSectionDetais(2)} 
+              onMouseEnter={() => this.slideUpSectionDetails(2)} 
               onMouseLeave={() => this.slideDownSectionDetails(2)} 
               onClick={() => this.toggleSection(2)} 
               className="main-section" 
               md={3}
             >
-              <div id={this.state.clicked === 2 ? "active-2" : "inactive-2"}>
-                <div id="section-detail-2" className="section-detail">
-                {
-                  this.state.clicked === 2 && 
-                  <div>
-                  </div>
-                }
-                </div>
+              <div id="hover-wrapper-2">
+                <div id="section-detail-2" className="section-detail" />
                 <span className="tile-letter" id="tile-letter-o">O
                   <span className="tile-title">ccupation</span>
                 </span>
@@ -172,20 +158,14 @@ export default class App extends Component {
             </div>
             <div 
               id="main-section-3" 
-              onMouseEnter={() => this.slideUpSectionDetais(3)} 
+              onMouseEnter={() => this.slideUpSectionDetails(3)} 
               onMouseLeave={() => this.slideDownSectionDetails(3)} 
               onClick={() => this.toggleSection(3)} 
               className="main-section" 
               md={3}
             >
-              <div id={this.state.clicked === 3 ? "active-3" : "inactive-3"}>
-                <div id="section-detail-3" className="section-detail">
-                {
-                  this.state.clicked === 3 && 
-                  <div>
-                  </div>
-                }
-                </div>
+              <div id="hover-wrapper-3">
+                <div id="section-detail-3" className="section-detail" />
                 <span className="tile-letter" id="tile-letter-l">L
                   <span className="tile-title">eisure</span>
                 </span>
@@ -197,20 +177,14 @@ export default class App extends Component {
             </div>
             <div 
               id="main-section-4" 
-              onMouseEnter={() => this.slideUpSectionDetais(4)} 
+              onMouseEnter={() => this.slideUpSectionDetails(4)} 
               onMouseLeave={() => this.slideDownSectionDetails(4)} 
               onClick={() => this.toggleSection(4)} 
               className="main-section" 
               md={3}
             >
-              <div id={this.state.clicked === 4 ? "active-4" : "inactive-4"}>
-                <div id="section-detail-4" className="section-detail">
-                {
-                  this.state.clicked === 4 && 
-                  <div>
-                  </div>
-                }
-                </div>
+              <div id="hover-wrapper-4">
+                <div id="section-detail-4" className="section-detail" />
                 <span className="tile-letter" id="tile-letter-d">D
                   <span className="tile-title">iscover</span>
                 </span>
@@ -243,6 +217,57 @@ export default class App extends Component {
             )})
           }
           </div>
+        </div>
+        <div id="section-content">
+          {
+            this.state.clicked !== 0 &&
+            <div 
+              className="close-button-container" 
+              onClick={() => this.toggleSection(0)}
+            >
+              <img src={close_button} id={`close-button-${this.state.clicked}`} className="close-button" alt="close-button" />
+            </div>
+          }
+          {
+            this.state.clicked === 1 &&
+            <div id="content-1">
+              <p id="title-1" className="main-title">
+                <span className="section-title-letter" id="section-title-letter-b">B
+                  <span className="section-title">eginnings</span>
+                </span>
+              </p>
+            </div>
+          }
+          {
+            this.state.clicked === 2 &&
+            <div id="content-2">
+              <p id="title-2" className="main-title">
+                <span className="section-title-letter" id="section-title-letter-o">O
+                  <span className="section-title">ccupation</span>
+                </span>
+              </p>
+            </div>
+          }
+          {
+            this.state.clicked === 3 &&
+            <div id="content-3">
+              <p id="title-3" className="main-title">
+                <span className="section-title-letter" id="section-title-letter-l">L
+                  <span className="section-title">eisure</span>
+                </span>
+              </p>
+            </div>
+          }
+          {
+            this.state.clicked === 4 &&
+            <div id="content-4">
+              <p id="title-4" className="main-title">
+                <span className="section-title-letter" id="section-title-letter-d">D
+                  <span className="section-title">iscover</span>
+                </span>
+              </p>
+            </div>
+          }
         </div>
       </div>
     );
